@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Dagger MVVM</string>
+    <string name="votes">avg votes %1$d number of votes %2$d</string>
+</resources>
