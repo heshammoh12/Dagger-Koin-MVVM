@@ -1,31 +1,36 @@
 package com.example.daggermvvm
 
 import android.annotation.SuppressLint
-import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.example.daggermvvm.data.MovieRepository
-import com.example.daggermvvm.data.MoviesResponse
-import io.reactivex.Observable
-import io.reactivex.Scheduler
-import io.reactivex.android.schedulers.AndroidSchedulers
+import com.example.daggermvvm.data.response.MoviesResponse
+import androidx.lifecycle.viewModelScope
+import com.example.daggermvvm.data.FetchingMoviesError
+import com.example.daggermvvm.data.response.APIResult
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
-import retrofit2.Response
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class MovieViewModel @Inject constructor(private val movieRepository: MovieRepository) {
-    var disposable = CompositeDisposable()
+class MovieViewModel @Inject constructor(private val movieRepository: MovieRepository) :
+    ViewModel() {
     val detailedReportResponse = MutableLiveData<MoviesResponse>()
+    val progressBar = MutableLiveData<Boolean>()
 
     @SuppressLint("CheckResult")
     fun getMovieApi() {
-         disposable.add(movieRepository.getAllMovies()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                detailedReportResponse.value = it
-            },{
-                Log.d("error",it.toString())
-            }))
+        viewModelScope.launch {
+            progressBar.value = true
+            when (val result = movieRepository.getAllMovies()) {
+                is APIResult.Success -> {
+                    detailedReportResponse.value = result.data
+                }
+                is APIResult.Error -> {
+                    progressBar.value = false
+//                        throw FetchingMoviesError(result.errorBody.toString(), null)
+                }
+            }
+        }
     }
 }

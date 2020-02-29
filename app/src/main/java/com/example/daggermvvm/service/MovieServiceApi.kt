@@ -1,12 +1,12 @@
 package com.example.daggermvvm.service
 
-import com.example.daggermvvm.data.MoviesResponse
-import io.reactivex.Observable
+import com.example.daggermvvm.data.response.APIResult
+import com.example.daggermvvm.data.response.MoviesResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface MovieServiceApi {
     @GET("movie/top_rated")
-    fun getTopRatedMovies(@Query("api_key") apiKey:String) : Observable<MoviesResponse>
+    suspend fun getTopRatedMovies(@Query("api_key") apiKey:String) : Response<MoviesResponse>
 }

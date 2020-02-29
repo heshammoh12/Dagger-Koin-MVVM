@@ -1,4 +1,4 @@
-package com.example.daggermvvm.data;
+package com.example.daggermvvm.data.response;
 
 import com.google.gson.annotations.SerializedName;
 

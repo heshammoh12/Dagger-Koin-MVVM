@@ -4,9 +4,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.example.daggermvvm.R
-import com.example.daggermvvm.data.Results
+import com.example.daggermvvm.data.response.Results
 import kotlinx.android.synthetic.main.list_item.view.*
 
 class EpisodeListRecycler(private val data: List<Results>)
@@ -28,8 +27,7 @@ class EpisodeListRecycler(private val data: List<Results>)
         fun bind(results: Results) {
             itemView.tv_episode_title.text = results.overview
 //            Glide.with(itemView.context).applyDefaultRequestOptions(RequestOptions().override(100).fitCenter()).load("http://image.tmdb.org/t/p/w500"+results.poster_path).into(itemView.iv_episode_image)
-            Glide.with(itemView.context).load("http://image.tmdb.org/t/p/w500"+results.poster_path).placeholder(R.drawable.ic_launcher_background).fitCenter().into(itemView.iv_episode_image);
-4
+            Glide.with(itemView.context).load("http://image.tmdb.org/t/p/w500"+results.poster_path).placeholder(R.drawable.ic_launcher_background).fitCenter().into(itemView.iv_episode_image)
 //            itemView.setOnClickListener { func(results) }
         }
     }

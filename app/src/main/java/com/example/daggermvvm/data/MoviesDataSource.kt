@@ -1,8 +1,9 @@
 package com.example.daggermvvm.data
 
-import io.reactivex.Observable
+import com.example.daggermvvm.data.response.APIResult
+import com.example.daggermvvm.data.response.MoviesResponse
 import retrofit2.Response
 
 interface MoviesDataSource {
-    fun getAllMovies () : Observable<MoviesResponse>
+    suspend fun getAllMovies () : APIResult<MoviesResponse>
 }
