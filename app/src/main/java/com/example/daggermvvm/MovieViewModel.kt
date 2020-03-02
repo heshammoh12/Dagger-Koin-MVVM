@@ -1,30 +1,38 @@
 package com.example.daggermvvm
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.daggermvvm.data.MovieRepository
 import com.example.daggermvvm.data.response.MoviesResponse
 import androidx.lifecycle.viewModelScope
-import com.example.daggermvvm.data.FetchingMoviesError
 import com.example.daggermvvm.data.response.APIResult
-import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class MovieViewModel @Inject constructor(private val movieRepository: MovieRepository) :
     ViewModel() {
-    val detailedReportResponse = MutableLiveData<MoviesResponse>()
+    val _detailedReportResponse = MutableLiveData<MoviesResponse>()
+    val detailedReportResponse: LiveData<MoviesResponse> = _detailedReportResponse
     val progressBar = MutableLiveData<Boolean>()
 
-    @SuppressLint("CheckResult")
-    fun getMovieApi() {
+    companion object {
+        /**
+         * Factory for creating [MainViewModel]
+         *
+         * @param arg the repository to pass to [MainViewModel]
+         */
+        val FACTORY = singleArgViewModelFactory(::MovieViewModel)
+    }
+
+    init {
         viewModelScope.launch {
             progressBar.value = true
             when (val result = movieRepository.getAllMovies()) {
                 is APIResult.Success -> {
-                    detailedReportResponse.value = result.data
+                    _detailedReportResponse.value = result.data
                 }
                 is APIResult.Error -> {
                     progressBar.value = false
@@ -32,5 +40,10 @@ class MovieViewModel @Inject constructor(private val movieRepository: MovieRepos
                 }
             }
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        Log.d("MovieViewModel","cleared")
     }
 }

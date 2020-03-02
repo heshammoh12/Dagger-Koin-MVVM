@@ -8,9 +8,10 @@ import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [MovieServiceApiModule::class, MovieRepositoryModule::class])
+@Component(modules = [MovieServiceApiModule::class, MovieRepositoryModule::class, MovieViewModelModule::class])
 interface AppComponent {
     fun movieServiceApi(): MovieServiceApi
     fun movieRepo(): MovieRepository
+    fun movieViewModel(): MovieViewModel
     fun movieViewModelInjection(mainActivity: MainActivity)
 }

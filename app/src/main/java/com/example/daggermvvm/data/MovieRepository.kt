@@ -11,8 +11,7 @@ class MovieRepository @Inject constructor(private val movieServiceApi: MovieServ
     MoviesDataSource,
     BaseRepository() {
     override suspend fun getAllMovies(): APIResult<MoviesResponse> =
-        getAPIResult(safeApiCall{movieServiceApi.getTopRatedMovies(BuildConfig.API_KEY)  })
-
+        getAPIResult(safeApiCall{movieServiceApi.getTopRatedMovies(BuildConfig.API_KEY)})
 }
 
 /**

@@ -2,8 +2,11 @@ package com.example.daggermvvm.dagger
 
 import android.content.Context
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.example.daggermvvm.BuildConfig
+import com.example.daggermvvm.MovieViewModel
 import com.example.daggermvvm.data.MovieRepository
+import androidx.lifecycle.ViewModelProviders
 import com.example.daggermvvm.service.MovieServiceApi
 import dagger.Module
 import dagger.Provides
@@ -24,7 +27,7 @@ class MovieServiceApiModule {
         retrofit.create(MovieServiceApi::class.java)
 }
 
-@Module
+@Module(includes = [MovieServiceApiModule::class])
 class MovieRepositoryModule {
     @Singleton
     @Provides
@@ -32,10 +35,17 @@ class MovieRepositoryModule {
         MovieRepository(movieServiceApi)
 }
 
+@Module(includes = [ContextModule::class, MovieRepositoryModule::class])
+class MovieViewModelModule {
+    @Singleton
+    @Provides
+    fun provideMovieRepository(context: Context, movieRepository: MovieRepository): MovieViewModel = ViewModelProviders
+        .of(context as AppCompatActivity, MovieViewModel.FACTORY(movieRepository))
+        .get(MovieViewModel::class.java)
+}
 
 @Module(includes = [ContextModule::class])
-class RetrofitModule() {
-
+class RetrofitModule {
     @Provides
     @Singleton
     fun provideRetrofit(
