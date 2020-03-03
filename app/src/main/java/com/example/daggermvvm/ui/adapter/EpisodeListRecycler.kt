@@ -31,5 +31,4 @@ class EpisodeListRecycler(private val data: List<Results>)
 //            itemView.setOnClickListener { func(results) }
         }
     }
-
 }

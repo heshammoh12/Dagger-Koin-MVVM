@@ -40,9 +40,6 @@ class MainActivity : AppCompatActivity() {
             .build()
             .movieViewModelInjection(this)
 
-        Log.d("activity", "create"+movieViewModel.toString())
-        Log.d("activity", "create repo"+movieRepository.toString())
-
         val lm = LinearLayoutManager(this)
         activity_main_recycler_movies.run {
             layoutManager = lm
@@ -61,22 +58,5 @@ class MainActivity : AppCompatActivity() {
             progressBar.visibility = if (it) View.VISIBLE else View.GONE
         })
 
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d("activity", "destory"+movieViewModel.toString())
-        Log.d("activity", "destory repo"+movieRepository.toString())
-        Log.d("activity", "destroy")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.d("activity", "resume")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.d("activity", "stop")
     }
 }

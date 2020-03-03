@@ -29,8 +29,8 @@ class MovieServiceApiModule {
 
 @Module(includes = [MovieServiceApiModule::class])
 class MovieRepositoryModule {
-    @Singleton
     @Provides
+    @Singleton
     fun provideMovieRepository(movieServiceApi: MovieServiceApi): MovieRepository =
         MovieRepository(movieServiceApi)
 }
