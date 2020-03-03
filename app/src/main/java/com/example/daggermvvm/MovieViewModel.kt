@@ -10,22 +10,12 @@ import com.example.daggermvvm.data.response.MoviesResponse
 import androidx.lifecycle.viewModelScope
 import com.example.daggermvvm.data.response.APIResult
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-class MovieViewModel @Inject constructor(private val movieRepository: MovieRepository) :
+class MovieViewModel(private val movieRepository: MovieRepository) :
     ViewModel() {
     val _detailedReportResponse = MutableLiveData<MoviesResponse>()
     val detailedReportResponse: LiveData<MoviesResponse> = _detailedReportResponse
     val progressBar = MutableLiveData<Boolean>()
-
-    companion object {
-        /**
-         * Factory for creating [MainViewModel]
-         *
-         * @param arg the repository to pass to [MainViewModel]
-         */
-        val FACTORY = singleArgViewModelFactory(::MovieViewModel)
-    }
 
     init {
         viewModelScope.launch {

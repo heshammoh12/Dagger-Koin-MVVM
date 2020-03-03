@@ -1,6 +1,5 @@
-package com.example.daggermvvm.service
+package com.example.daggermvvm.network
 
-import com.example.daggermvvm.data.response.APIResult
 import com.example.daggermvvm.data.response.MoviesResponse
 import retrofit2.Response
 import retrofit2.http.GET

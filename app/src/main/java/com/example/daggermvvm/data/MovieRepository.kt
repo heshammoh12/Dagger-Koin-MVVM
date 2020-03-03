@@ -3,11 +3,9 @@ package com.example.daggermvvm.data
 import com.example.daggermvvm.BuildConfig
 import com.example.daggermvvm.data.response.APIResult
 import com.example.daggermvvm.data.response.MoviesResponse
-import com.example.daggermvvm.service.MovieServiceApi
-import retrofit2.Response
-import javax.inject.Inject
+import com.example.daggermvvm.network.MovieServiceApi
 
-class MovieRepository @Inject constructor(private val movieServiceApi: MovieServiceApi) :
+class MovieRepository(private val movieServiceApi: MovieServiceApi) :
     MoviesDataSource,
     BaseRepository() {
     override suspend fun getAllMovies(): APIResult<MoviesResponse> =

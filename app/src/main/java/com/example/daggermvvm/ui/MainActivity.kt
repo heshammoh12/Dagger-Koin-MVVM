@@ -12,20 +12,14 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.daggermvvm.MovieViewModel
 import com.example.daggermvvm.R
-import com.example.daggermvvm.dagger.ContextModule
-import com.example.daggermvvm.dagger.DaggerAppComponent
-import com.example.daggermvvm.data.FetchingMoviesError
 import com.example.daggermvvm.data.MovieRepository
 import com.moducode.daggerexample.ui.adapter.EpisodeListRecycler
 import kotlinx.android.synthetic.main.activity_main.*
-import javax.inject.Inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var movieViewModel: MovieViewModel
-    @Inject
-    lateinit var movieRepository: MovieRepository
+    val movieViewModel: MovieViewModel by viewModel()
     lateinit var recyclerAdapter: EpisodeListRecycler
     lateinit var progressBar: ProgressBar
 
@@ -33,12 +27,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         progressBar = findViewById(R.id.progressBar)
-
-        DaggerAppComponent
-            .builder()
-            .contextModule(ContextModule(this))
-            .build()
-            .movieViewModelInjection(this)
 
         val lm = LinearLayoutManager(this)
         activity_main_recycler_movies.run {
